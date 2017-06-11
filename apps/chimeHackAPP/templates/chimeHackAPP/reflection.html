@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p><a href="/dashboard">Dashboard</a></p>
+    <form action="/reflection" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <p>Title</p>
+        <input type="text" name="title" class="form-control" id="exampleTitle" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <p>Essay</p>
+        <textarea rows="4" cols="50" name="essay" class="form-control" id="exampleInputEssay" placeholder="Essay"></textarea>
+      </div><br>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </body>
+</html>
