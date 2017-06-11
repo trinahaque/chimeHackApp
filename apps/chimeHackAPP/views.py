@@ -74,6 +74,15 @@ def essay(request):
         if essay[0] == False:
             for error in essay[1]:
                 messages.add_message(request, messages.INFO, error)
-                return redirect('/reflection')
+                return redirect('/dashboard')
         else:
-            return redirect('/dashboard')
+            return redirect('/home')
+    return redirect('/')
+
+
+def delete(request, eid):
+    if "id" in request.session:
+        user = User.objects.get(id=request.session['id'])
+        Essay.objects.get(id=eid, user=user).delete()
+        return redirect('/dashboard')
+    return redirect('/')

@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^home$', views.home),
     url(r'^reflection$', views.reflection),
     url(r'^essay$', views.essay),
-    url(r'^viewAll$', views.home)
+    url(r'^delete/(?P<eid>\d+)$', views.delete)
 
 ]

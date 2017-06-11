@@ -9,6 +9,8 @@
       {% for essay in essays %}
       <p>{{essay.title}}</p>
       <p>{{essay.essay}}</p>
+      <a href="/delete/{{essay.id}}">Delete</a>
+      -----------------------------------------
       {% endfor %}
     {% else %}
       <p>Add a <a href="/reflection">Reflection</a></p>
