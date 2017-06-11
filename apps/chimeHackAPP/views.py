@@ -58,3 +58,8 @@ def home(request):
     if "id" in request.session:
         return render(request, "chimeHackApp/home.html")
     return redirect('/')
+
+def reflection(request):
+    if "id" in request.session:
+        return render(request, "chimeHackApp/reflection.html")
+    return redirect('/')

@@ -5,6 +5,21 @@
     <title>Dashboard</title>
   </head>
   <body>
+    <script>
+      if ("geolocation" in navigator){
+        function success(position){
+          var latitude = position.coords.latitude;
+          var longitude = position.coords.longitude;
+          console.log("there is navigation :"+ latitude + longitude)
+        }
+        function error(position){
+          console.log("GPS error")
+        }
+        navigator.geolocation.getCurrentPosition(success, error)
+      } else {
+        console.log("NO navigator")
+      }
+    </script>
     <a href="/home">Home</a>
     <h1>What's on your mind?</h1>
     <a href="/reflection">Reflection</a>
