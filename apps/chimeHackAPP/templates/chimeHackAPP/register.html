@@ -1,12 +1,38 @@
-
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Registration</title>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
+    <script>
+      if ("geolocation" in navigator){
+        function success(position){
+          var latitude = position.coords.latitude;
+          var longitude = position.coords.longitude;
+          console.log("there is navigation :"+ latitude + longitude)
+          $.ajax({
+            url: 'http://localhost:8000/location',
+            data: {latitude: latitude, longitude: longitude},
+            success: function(result) { console.log('got response', result);}
+          });
+        }
+        function error(position){
+          console.log("GPS error")
+        }
+        navigator.geolocation.getCurrentPosition(success, error)
+      } else {
+        console.log("NO navigator")
+      }
+    </script>
+    {{latitude}}
     <h3>Please Register to use this app </h3>
     <form action="/registered" method="POST">
       {% csrf_token %}
@@ -19,7 +45,7 @@
         <input type="text" name="last_name" class="form-control" id="exampleInputLast Name" placeholder="Last Name">
       </div>
       <div class="form-group">
-        <label for="exampleInputUserName">Username (firstname and lastname)</label>
+        <label for="exampleInputUserName">Username</label>
         <input type="text" name="username" class="form-control" id="exampleInputUserName" placeholder="Username">
       </div>
       <div class="form-group">
@@ -34,10 +60,7 @@
         <label for="exampleInputLanguage">Native Language</label>
         <input type="text" name="language" class="form-control" id="exampleInputLanguage" placeholder="Language">
       </div>
-      <div class="form-group">
-        <label for="exampleInputLocation">Current Location</label>
-        <input type="text" name="location" class="form-control" id="exampleInputLocation" placeholder="Location">
-      </div>
+
       <button type="submit" class="btn btn-default">Sign Up</button>
     </form>
     {% if messages %}

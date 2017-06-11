@@ -1,19 +1,22 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title></title>
   </head>
   <body>
-    {% if essays|length > 1 %}
+    <p><a href="/dashboard">Dashboard</a>&nbsp;&nbsp;&nbsp;<a href="/reflection">Reflection</a>&nbsp;&nbsp;&nbsp;<a href="/logout">Log Out</a></p>
+    {% if essays|length > 0 %}
       {% for essay in essays %}
       <p>{{essay.title}}</p>
       <p>{{essay.essay}}</p>
-      <a href="/delete/{{essay.id}}">Delete</a>
+      <a href="/delete/{{essay.id}}">Delete</a><br>
       -----------------------------------------
       {% endfor %}
     {% else %}
-      <p>Add a <a href="/reflection">Reflection</a></p>
+      <h2>Add a <a href="/reflection">Reflection</a></h2>
     {% endif %}
   </body>
 </html>

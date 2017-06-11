@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,7 +6,7 @@
     <title></title>
   </head>
   <body>
-    <p><a href="/dashboard">Dashboard</a>&nbsp;&nbsp;&nbsp;<a href="/home">View All Reflections</a></p>
+    <p><a href="/dashboard">Dashboard</a>&nbsp;&nbsp;&nbsp;<a href="/home">View All Reflections</a>&nbsp;&nbsp;&nbsp;<a href="/logout">Log Out</a></p>
     <form action="/essay" method="POST">
       {% csrf_token %}
       <div class="form-group">
@@ -16,7 +17,7 @@
         <p>Essay</p>
         <textarea rows="4" cols="50" name="essay" class="form-control" id="exampleInputEssay"></textarea>
       </div><br>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <button type="submit" class="btn btn-default">Review</button>
     </form>
   </body>
 </html>

@@ -2,19 +2,23 @@ from __future__ import unicode_literals
 from django.db import models
 import re, bcrypt
 from datetime import datetime, date
+import urllib2
+import os
+import json
 NAME_REGEX = re.compile(r'/^[a-zA-Z]+', re.MULTILINE)
 PASSWORD_REGEX = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$', re.MULTILINE)
 
 class UserManager(models.Manager):
 
-    def registration(self, POST):
+    def registration(self, POST, latitude, longitude):
+        # print "data in model is", latitude, longitude
         first_name = POST['first_name'].lower()
         last_name = POST['last_name'].lower()
         username = POST['username'].lower()
         password = POST['password']
         skill_level = POST['skill_level']
         language = POST['language'].lower()
-        location = POST['location'].lower()
+        location = getCountryFromGeocode(str(latitude)+ ',' +str(longitude))
 
         errors = []
 
@@ -111,3 +115,34 @@ class Essay(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = EssayManager()
+
+
+# Calling Google Maps to get Place.
+def getCountryFromGeocode(geocode):
+    #key = os.environ["GOOGLE_MAP_KEY"]
+
+    key = ''
+
+    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s&key=%s" % (geocode, key)
+
+    # In case any error getting the location, I do nothing and return None instead of 0,0,0.
+    try:
+        response = urllib2.urlopen(url)
+    except urllib2.HTTPError:
+        return {'status':False, 'place': 'http_error'}
+    except plpy.SPIError:   # Or any other error
+        return {'status':False, 'place': 'spi_error'}
+
+    jsonresponse = json.loads(response.read())
+    if jsonresponse['status']  == 'OK':
+        geocode = jsonresponse["results"][0]['geometry']['location']
+        # Maybe add if country = USA here, but I think this should be handled by a calling object.
+        try:
+            country = next(x["long_name"] for x in jsonresponse['results'][0]["address_components"] if "country" in x["types"])
+        except StopIteration: # Look for base exception
+            country = location
+
+    elif jsonresponse['status']  == 'ZERO_RESULTS':
+        return {'status':False, 'place': 'Zero_results'}
+
+    return country

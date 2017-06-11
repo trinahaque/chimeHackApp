@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
+import json
 from .models import User, Language, Essay
-
 
 # Create your views here.
 def index(request):
@@ -15,9 +15,17 @@ def register(request):
         return redirect('/dashboard')
     return render(request, "chimeHackApp/register.html")
 
+
+def location(request):
+    request.session['latitude'] = request.GET.get('latitude')
+    request.session['longitude'] = request.GET.get('longitude')
+    # return (latitude, longitude)
+    return HttpResponse(json.dumps({'foo': 123}), content_type="application/json")
+
 def registered(request):
     if request.method == "POST":
-        result = User.objects.registration(request.POST)
+        result = User.objects.registration(request.POST, request.session['latitude'], request.session['longitude'])
+        # getCountryFromGeocode()
         if result[0] == False:
             for error in result[1]:
                 messages.add_message(request, messages.INFO, error)

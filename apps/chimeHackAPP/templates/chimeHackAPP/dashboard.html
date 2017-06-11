@@ -1,27 +1,15 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Dashboard</title>
   </head>
   <body>
-    <script>
-      if ("geolocation" in navigator){
-        function success(position){
-          var latitude = position.coords.latitude;
-          var longitude = position.coords.longitude;
-          console.log("there is navigation :"+ latitude + longitude)
-        }
-        function error(position){
-          console.log("GPS error")
-        }
-        navigator.geolocation.getCurrentPosition(success, error)
-      } else {
-        console.log("NO navigator")
-      }
-    </script>
-    <a href="/home">Home</a>
-    <h1>What's on your mind?</h1>
-    <a href="/reflection">Reflection</a>
+    <p><a class="btn-group" href="/home">All Reflections</a>&nbsp;&nbsp;&nbsp;<a href="/logout">Log Out</a></p>
+    <h1>What's on your mind today?</h1>
+    <h2 class="btn-group btn-group-justified" role="group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/reflection">Add A Reflection</a><h2>
+    <p>&nbsp;&nbsp;<img src="{% static 'chimeHackApp/images/dashboard.jpg' %}" width=300px height=300px></p>
   </body>
 </html>
