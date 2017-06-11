@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User, Language
+from .models import User, Language, Essay
 
 
 # Create your views here.
@@ -53,13 +53,27 @@ def dashboard(request):
         return render(request, "chimeHackApp/dashboard.html")
     return redirect('/')
 
-
 def home(request):
     if "id" in request.session:
-        return render(request, "chimeHackApp/home.html")
+        user = User.objects.get(id=request.session['id'])
+        essays = Essay.objects.filter(user=user)
+        context = {
+            "essays": essays
+        }
+        return render(request, "chimeHackApp/home.html", context)
     return redirect('/')
 
 def reflection(request):
     if "id" in request.session:
         return render(request, "chimeHackApp/reflection.html")
     return redirect('/')
+
+def essay(request):
+    if request.method == "POST" and "id" in request.session:
+        essay = Essay.objects.validateEssay(request.POST, request.session['id'])
+        if essay[0] == False:
+            for error in essay[1]:
+                messages.add_message(request, messages.INFO, error)
+                return redirect('/reflection')
+        else:
+            return redirect('/dashboard')

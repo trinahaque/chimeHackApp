@@ -70,16 +70,13 @@ class UserManager(models.Manager):
 
 
 class EssayManager(models.Manager):
-
     def validateEssay(self, POST, id):
         title = POST['title']
         essay = POST['essay']
 
         errors = []
-
         if len(title) < 1 or len(essay) < 1:
             errors.append("A field can not be empty")
-
         else:
             user = User.objects.get(id=id)
             essay = Essay.objects.create(user=user, title=title, essay=essay)
@@ -92,6 +89,7 @@ class Language(models.Model):
     language = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)

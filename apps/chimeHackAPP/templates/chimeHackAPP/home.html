@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {% if essays|length > 1 %}
+      {% for essay in essays %}
+      <p>{{essay.title}}</p>
+      <p>{{essay.essay}}</p>
+      {% endfor %}
+    {% else %}
+      <p>Add a <a href="/reflection">Reflection</a></p>
+    {% endif %}
+  </body>
+</html>

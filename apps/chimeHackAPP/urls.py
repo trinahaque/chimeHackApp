@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^dashboard$', views.dashboard),
     url(r'^home$', views.home),
     url(r'^reflection$', views.reflection),
+    url(r'^essay$', views.essay),
+    url(r'^viewAll$', views.home)
 
 ]
